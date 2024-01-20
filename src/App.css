@@ -1,0 +1,23 @@
+.App{
+    height: 800px;
+    width: 800px;
+    border: 1px solid #ccc;
+    margin: 100px auto;
+    position: relative;
+}
+
+.snake-body{
+    height: 4%;
+    width: 4%;
+    background-color: black;
+    border: 1px solid #fff;
+    position: absolute;
+}
+
+.food{
+    height: 4%;
+    width: 4%;
+    background-color: red;
+    border: 1px solid #fff;
+    position: absolute;
+}

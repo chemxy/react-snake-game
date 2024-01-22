@@ -106,9 +106,9 @@ function App() {
         if (!gameover) {
             window.addEventListener("keydown", onKeyPress);
             // window.onkeydown = onKeyPress;
-            return () => {
-                window.removeEventListener("keydown", onKeyPress);
-            }
+        }
+        return () => {
+            window.removeEventListener("keydown", onKeyPress);
         }
     }, [snake, gameover]);
 
@@ -143,7 +143,7 @@ function App() {
     }, [snake, gameover]);
 
     return (
-        <div className="App">
+        <div className="map">
             {/*<div className="snake-body" style={{top: 0, left: 0}}></div>*/}
             {/*<div className="snake-body" style={{top: 0, left: '2%'}}></div>*/}
             {snake.bodyLocation.map((item, index) => {

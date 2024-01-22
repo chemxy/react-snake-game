@@ -57,7 +57,6 @@ function App() {
     }
 
     function onKeyPress(event) {
-        event.preventDefault();
         // console.log(event);
         console.log(event.key);
         // console.log(event.code);
@@ -104,11 +103,11 @@ function App() {
     useEffect(() => {
 
         if (!gameover) {
-            window.addEventListener("keydown", onKeyPress);
+            document.addEventListener("keydown", onKeyPress);
             // window.onkeydown = onKeyPress;
         }
         return () => {
-            window.removeEventListener("keydown", onKeyPress);
+            document.removeEventListener("keydown", onKeyPress);
         }
     }, [snake, gameover]);
 
@@ -143,7 +142,7 @@ function App() {
     }, [snake, gameover]);
 
     return (
-        <div className="map">
+        <div className="map" id="map" >
             {/*<div className="snake-body" style={{top: 0, left: 0}}></div>*/}
             {/*<div className="snake-body" style={{top: 0, left: '2%'}}></div>*/}
             {snake.bodyLocation.map((item, index) => {

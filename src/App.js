@@ -1,5 +1,5 @@
 import './App.css';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const initSnake = {
     bodyLocation: [
@@ -30,7 +30,8 @@ function App() {
 
     const [snake, setSnake] = useState(initSnake);
     const [gameover, setGameover] = useState(false);
-    const [food, setFood] = useState(initFoodLocation)
+    const [food, setFood] = useState(initFoodLocation);
+    const scoreRef = useRef(0);
 
     function move() {
         let newBodyLocation = [...snake.bodyLocation];
@@ -93,6 +94,7 @@ function App() {
         const head = snake.getHead();
         if (head[0] === food[0] && head[1] === food[1]) {
             console.log("ate food");
+            scoreRef.current += 1;
             let newBodyLocation = [...snake.bodyLocation];
             newBodyLocation.unshift([]);
             setSnake({...snake, bodyLocation: newBodyLocation});
@@ -142,20 +144,25 @@ function App() {
     }, [snake, gameover]);
 
     return (
-        <div className="map" id="map" >
-            {/*<div className="snake-body" style={{top: 0, left: 0}}></div>*/}
-            {/*<div className="snake-body" style={{top: 0, left: '2%'}}></div>*/}
-            {snake.bodyLocation.map((item, index) => {
-                return <div className="snake-body" key={index} style={{
-                    left: `${item[0] * snake.scale}%`,
-                    top: `${item[1] * snake.scale}%`,
+        <div>
+            <div className="score">{scoreRef.current}</div>
+            <div className="map">
+                {/*<div className="snake-body" style={{top: 0, left: 0}}></div>*/}
+                {/*<div className="snake-body" style={{top: 0, left: '1%'}}></div>*/}
+                {/*<div className="snake-body" style={{top: 0, left: '2%'}}></div>*/}
+                {snake.bodyLocation.map((item, index) => {
+                    return <div className="snake-body" key={index} style={{
+                        left: `${item[0] * snake.scale}%`,
+                        top: `${item[1] * snake.scale}%`,
+                    }}></div>
+                })}
+                <div className="food" style={{
+                    left: `${food[0] * snake.scale}%`,
+                    top: `${food[1] * snake.scale}%`
                 }}></div>
-            })}
-            <div className="food" style={{
-                left: `${food[0] * snake.scale}%`,
-                top: `${food[1] * snake.scale}%`
-            }}></div>
+            </div>
         </div>
+
     );
 }
 

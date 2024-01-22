@@ -2,7 +2,7 @@
     height: 800px;
     width: 800px;
     border: 1px solid #ccc;
-    margin: 100px auto;
+    margin: 60px auto;
     position: relative;
 }
 
@@ -20,4 +20,11 @@
     background-color: red;
     border: 1px solid #fff;
     position: absolute;
+}
+
+.score{
+    margin-top: 60px;
+    justify-content: center;
+    text-align: center;
+    font-size: 38px;
 }

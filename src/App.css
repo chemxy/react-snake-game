@@ -1,8 +1,8 @@
 .map{
-    height: 800px;
-    width: 800px;
+    height: 600px;
+    width: 600px;
     border: 1px solid #ccc;
-    margin: 60px auto;
+    margin: 40px auto;
     position: relative;
 }
 
@@ -23,7 +23,7 @@
 }
 
 .score{
-    margin-top: 60px;
+    margin-top: 40px;
     justify-content: center;
     text-align: center;
     font-size: 38px;

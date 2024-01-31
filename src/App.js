@@ -5,13 +5,17 @@ const initSnake = {
     bodyLocation: [
         [0, 0],
         [1, 0],
-        [2, 0]
+        [2, 0],
+        [3, 0]
     ],
     direction: "RIGHT",
     speed: 200,
     scale: 4, // app.css - .snake-body height & width
     getHead: function getHead() {
         return this.bodyLocation[this.bodyLocation.length - 1];
+    },
+    getBody: function () {
+        return this.bodyLocation.slice(0, -1);
     },
 }
 
@@ -32,19 +36,34 @@ function App() {
     const [gameover, setGameover] = useState(false);
     const [food, setFood] = useState(initFoodLocation);
     const scoreRef = useRef(0);
+    const direction = useRef('RIGHT'); //switch to useRef to prevent snake movement pausing when pressing keys
 
     function move() {
         let newBodyLocation = [...snake.bodyLocation];
         // let head = newBodyLocation[newBodyLocation.length - 1];
         let head = snake.getHead();
-        switch (snake.direction) {
+        // switch (snake.direction) {
+        //     case "UP":
+        //         head = [head[0], head[1] - 1];
+        //         break;
+        //     case "DOWN":
+        //         head = [head[0], head[1] + 1];
+        //         break;
+        //     case "LFET":
+        //         head = [head[0] - 1, head[1]];
+        //         break;
+        //     case "RIGHT":
+        //         head = [head[0] + 1, head[1]];
+        //         break;
+        // }
+        switch (direction.current) {
             case "UP":
                 head = [head[0], head[1] - 1];
                 break;
             case "DOWN":
                 head = [head[0], head[1] + 1];
                 break;
-            case "LFET":
+            case "LEFT":
                 head = [head[0] - 1, head[1]];
                 break;
             case "RIGHT":
@@ -62,22 +81,41 @@ function App() {
         console.log(event.key);
         // console.log(event.code);
         // console.log(event.keyCode);
+        // switch (event.key) {
+        //     case "ArrowDown":
+        //         if (snake.direction !== "UP")
+        //             setSnake({...snake, direction: "DOWN"});
+        //         break;
+        //     case "ArrowUp":
+        //         if (snake.direction !== "DOWN")
+        //             setSnake({...snake, direction: "UP"});
+        //         break;
+        //     case "ArrowLeft":
+        //         if (snake.direction !== "RIGHT")
+        //             setSnake({...snake, direction: "LFET"});
+        //         break;
+        //     case "ArrowRight":
+        //         if (snake.direction !== "LEFT")
+        //             setSnake({...snake, direction: "RIGHT"});
+        //         break;
+        // }
+
         switch (event.key) {
             case "ArrowDown":
-                if (snake.direction !== "UP")
-                    setSnake({...snake, direction: "DOWN"});
+                if (direction.current !== "UP")
+                    direction.current = 'DOWN';
                 break;
             case "ArrowUp":
-                if (snake.direction !== "DOWN")
-                    setSnake({...snake, direction: "UP"});
+                if (direction.current !== "DOWN")
+                    direction.current = 'UP';
                 break;
             case "ArrowLeft":
-                if (snake.direction !== "RIGHT")
-                    setSnake({...snake, direction: "LFET"});
+                if (direction.current !== "RIGHT")
+                    direction.current = 'LEFT';
                 break;
             case "ArrowRight":
-                if (snake.direction !== "LEFT")
-                    setSnake({...snake, direction: "RIGHT"});
+                if (direction.current !== "LEFT")
+                    direction.current = 'RIGHT';
                 break;
         }
     }
@@ -102,10 +140,22 @@ function App() {
         }
     }
 
+    function checkBodyCollision() {
+        const head = snake.getHead();
+        const body = snake.getBody();
+        // console.log(head);
+        // console.log(body);
+        const found = body.find((item) => item[0] === head[0] && item[1] === head[1]);
+        if (found) {
+            console.log("hit the body");
+            setGameover(true);
+        }
+    }
+
     useEffect(() => {
 
         if (!gameover) {
-            document.addEventListener("keydown", onKeyPress);
+            document.addEventListener("keydown", onKeyPress, {once: true}); // prevent multiple key presses within the same interval
             // window.onkeydown = onKeyPress;
         }
         return () => {
@@ -121,7 +171,6 @@ function App() {
     // }, [snake, gameover]);
 
     useEffect(() => {
-
         if (!gameover) {
             const interval = setInterval(() => {
                 move();
@@ -140,6 +189,12 @@ function App() {
     useEffect(() => {
         if (!gameover) {
             hasEatenFood();
+        }
+    }, [snake, gameover]);
+
+    useEffect(() => {
+        if (!gameover) {
+            checkBodyCollision();
         }
     }, [snake, gameover]);
 

@@ -144,9 +144,9 @@ function App() {
     }, [snake, gameover]);
 
     return (
-        <div>
+        <div className="app-background">
             <div className="score">{scoreRef.current}</div>
-            <div className="map">
+            <div className="canvas">
                 {/*<div className="snake-body" style={{top: 0, left: 0}}></div>*/}
                 {/*<div className="snake-body" style={{top: 0, left: '1%'}}></div>*/}
                 {/*<div className="snake-body" style={{top: 0, left: '2%'}}></div>*/}

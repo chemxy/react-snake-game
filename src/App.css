@@ -1,12 +1,25 @@
-.map{
+body {
+    background-color: #6A9C89;
+}
+
+.score {
+    margin-top: 100px;
+    justify-content: center;
+    text-align: center;
+    font-size: 60px;
+    font-family: "Press Start 2P", system-ui;
+}
+
+.canvas {
     height: 600px;
     width: 600px;
     border: 1px solid #ccc;
-    margin: 40px auto;
+    margin: 100px auto;
     position: relative;
+    background-color: white;
 }
 
-.snake-body{
+.snake-body {
     height: 4%;
     width: 4%;
     background-color: black;
@@ -14,17 +27,10 @@
     position: absolute;
 }
 
-.food{
+.food {
     height: 4%;
     width: 4%;
     background-color: red;
     border: 1px solid #fff;
     position: absolute;
-}
-
-.score{
-    margin-top: 40px;
-    justify-content: center;
-    text-align: center;
-    font-size: 38px;
 }

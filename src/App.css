@@ -2,7 +2,8 @@ body {
     background-color: #6A9C89;
 }
 
-.score {
+.score,
+.game-over {
     margin-top: 100px;
     justify-content: center;
     text-align: center;

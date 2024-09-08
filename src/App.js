@@ -1,5 +1,5 @@
 import './App.css';
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 
 const initSnake = {
     bodyLocation: [
@@ -199,9 +199,11 @@ function App() {
     }, [snake, gameover]);
 
     return (
-        <div>
-            <div className="score">{scoreRef.current}</div>
-            <div className="map">
+        <div className="app-background">
+            <div className="score">
+                {scoreRef.current}
+            </div>
+            <div className="canvas">
                 {/*<div className="snake-body" style={{top: 0, left: 0}}></div>*/}
                 {/*<div className="snake-body" style={{top: 0, left: '1%'}}></div>*/}
                 {/*<div className="snake-body" style={{top: 0, left: '2%'}}></div>*/}
@@ -215,6 +217,9 @@ function App() {
                     left: `${food[0] * snake.scale}%`,
                     top: `${food[1] * snake.scale}%`
                 }}></div>
+            </div>
+                <div className="game-over">
+                {gameover && <div>Game Over!</div>}
             </div>
         </div>
 

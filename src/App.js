@@ -152,17 +152,7 @@ function App() {
     useEffect(() => {
         if (!gameover) {
             hasHitWall();
-        }
-    }, [snake, gameover]);
-
-    useEffect(() => {
-        if (!gameover) {
             hasEatenFood();
-        }
-    }, [snake, gameover]);
-
-    useEffect(() => {
-        if (!gameover) {
             checkBodyCollision();
         }
     }, [snake, gameover]);

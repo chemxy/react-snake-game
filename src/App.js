@@ -33,7 +33,7 @@ const initFoodLocation = generateFood();
 function App() {
 
     const [snake, setSnake] = useState(initSnake);
-    const [gameover, setGameover] = useState(false);
+    const [gameover, setGameover] = useState(true);
     const [food, setFood] = useState(initFoodLocation);
     const scoreRef = useRef(0);
     const direction = useRef('RIGHT'); //switch to useRef to prevent snake movement pausing when pressing keys
@@ -152,6 +152,10 @@ function App() {
         }
     }
 
+    function startGame() {
+        setGameover(false);
+    }
+
     useEffect(() => {
 
         if (!gameover) {
@@ -218,8 +222,9 @@ function App() {
                     top: `${food[1] * snake.scale}%`
                 }}></div>
             </div>
-                <div className="game-over">
+            <div className="game-over">
                 {gameover && <div>Game Over!</div>}
+                {gameover && <button className="start-button" onClick={startGame}>start</button>}
             </div>
         </div>
 

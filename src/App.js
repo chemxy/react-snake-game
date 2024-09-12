@@ -133,6 +133,7 @@ function App() {
             document.addEventListener("keydown", handleKeyPress, {once: true}); // prevent multiple key presses within the same interval using {once:true}
         }
         return () => {
+            //clearing the keypress listener; otherwise it creates multiple listeners and they are stacked infinitely.
             document.removeEventListener("keydown", handleKeyPress);
         }
     }, [snake.bodyLocation, gameover]);
@@ -142,7 +143,7 @@ function App() {
             const interval = setInterval(() => {
                 move();
             }, snake.speed);
-            //Clearing the interval
+            //clearing the interval; otherwise it creates intervals calling move() function and they are stacked infinitely.
             return () => {
                 clearInterval(interval);
             };
@@ -173,9 +174,6 @@ function App() {
                 {scoreRef.current}
             </div>
             <div className="canvas">
-                {/*<div className="snake-body" style={{top: 0, left: 0}}></div>*/}
-                {/*<div className="snake-body" style={{top: 0, left: '1%'}}></div>*/}
-                {/*<div className="snake-body" style={{top: 0, left: '2%'}}></div>*/}
                 {snake.bodyLocation.map((item, index) => {
                     return <div className="snake-body" key={index} style={{
                         left: `${item[0] * snake.scale}%`,

@@ -10,7 +10,7 @@ const initSnake = {
     ],
     direction: "RIGHT",
     speed: 200,
-    scale: 4, // app.css - .snake-body height & width
+    scale: 4, // consistent with app.css - .snake-body height & width
     getHead: function getHead() {
         return this.bodyLocation[this.bodyLocation.length - 1];
     },

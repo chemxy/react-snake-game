@@ -36,6 +36,7 @@ function App() {
     const [gameover, setGameover] = useState(true);
     const [food, setFood] = useState(initFoodLocation);
     const scoreRef = useRef(0);
+    const isFirstGame = useRef(true);
 
     function move() {
         let newBodyLocation = [...snake.bodyLocation];
@@ -118,7 +119,11 @@ function App() {
         }
     }
 
-    function startGame() {
+    function startNewGame() {
+        setSnake(initSnake);
+        setFood(initFoodLocation);
+        scoreRef.current = 0;
+        isFirstGame.current = false;
         setGameover(false);
     }
 
@@ -183,8 +188,8 @@ function App() {
                 }}></div>
             </div>
             <div className="game-over">
-                {gameover && <div>Game Over!</div>}
-                {gameover && <button className="start-button" onClick={startGame}>start</button>}
+                {(!isFirstGame.current && gameover) && <div>Game Over!</div>}
+                {gameover && <button className="start-button" onClick={startNewGame}>start new game</button>}
             </div>
         </div>
 

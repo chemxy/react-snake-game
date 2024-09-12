@@ -90,7 +90,7 @@ function App() {
     function hasHitWall() {
         const head = snake.getHead();
         if (head[0] * snake.scale < 0 || head[0] * snake.scale > 99 || head[1] < 0 || head[1] * snake.scale > 99) {
-            console.log("hit the wall.game over.");
+            console.log("hit the wall. game over.");
             setGameover(true);
         }
     }

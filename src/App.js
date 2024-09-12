@@ -40,7 +40,6 @@ function App() {
 
     function move() {
         let newBodyLocation = [...snake.bodyLocation];
-        // let head = newBodyLocation[newBodyLocation.length - 1];
         let head = snake.getHead();
         switch (snake.direction) {
             case "UP":

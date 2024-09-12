@@ -58,13 +58,13 @@ function App() {
         }
         newBodyLocation.shift();//remove the last index which is the head
         newBodyLocation.push(head);//add the new head
-        console.log(newBodyLocation)
+        // console.log(newBodyLocation)
         setSnake({...snake, bodyLocation: newBodyLocation})
     }
 
     function handleKeyPress(event) {
         // console.log(event);
-        console.log(event.key);
+        // console.log(event.key);
         // console.log(event.code);
         // console.log(event.keyCode);
         switch (event.key) {
@@ -90,7 +90,7 @@ function App() {
     function hasHitWall() {
         const head = snake.getHead();
         if (head[0] * snake.scale < 0 || head[0] * snake.scale > 99 || head[1] < 0 || head[1] * snake.scale > 99) {
-            console.log("game over");
+            console.log("hit the wall.game over.");
             setGameover(true);
         }
     }
@@ -98,7 +98,7 @@ function App() {
     function hasEatenFood() {
         const head = snake.getHead();
         if (head[0] === food[0] && head[1] === food[1]) {
-            console.log("ate food");
+            // console.log("ate food");
             scoreRef.current += 1;
             let newBodyLocation = [...snake.bodyLocation];
             newBodyLocation.unshift([]);
@@ -114,7 +114,7 @@ function App() {
         // console.log(body);
         const found = body.find((item) => item[0] === head[0] && item[1] === head[1]);
         if (found) {
-            console.log("hit the body");
+            console.log("hit the body. game over.");
             setGameover(true);
         }
     }

@@ -9,7 +9,7 @@ const initSnake = {
         [3, 0]
     ],
     direction: "RIGHT",
-    speed: 100,
+    speed: 200,
     scale: 4, // consistent with app.css - .snake-body height & width
     getHead: function getHead() {
         return this.bodyLocation[this.bodyLocation.length - 1];
@@ -36,34 +36,19 @@ function App() {
     const [gameover, setGameover] = useState(false);
     const [food, setFood] = useState(initFoodLocation);
     const scoreRef = useRef(0);
-    const direction = useRef('RIGHT'); //switch to useRef to prevent snake movement pausing when pressing keys
 
     function move() {
         let newBodyLocation = [...snake.bodyLocation];
         // let head = newBodyLocation[newBodyLocation.length - 1];
         let head = snake.getHead();
-        // switch (snake.direction) {
-        //     case "UP":
-        //         head = [head[0], head[1] - 1];
-        //         break;
-        //     case "DOWN":
-        //         head = [head[0], head[1] + 1];
-        //         break;
-        //     case "LFET":
-        //         head = [head[0] - 1, head[1]];
-        //         break;
-        //     case "RIGHT":
-        //         head = [head[0] + 1, head[1]];
-        //         break;
-        // }
-        switch (direction.current) {
+        switch (snake.direction) {
             case "UP":
                 head = [head[0], head[1] - 1];
                 break;
             case "DOWN":
                 head = [head[0], head[1] + 1];
                 break;
-            case "LEFT":
+            case "LFET":
                 head = [head[0] - 1, head[1]];
                 break;
             case "RIGHT":
@@ -76,46 +61,27 @@ function App() {
         setSnake({...snake, bodyLocation: newBodyLocation})
     }
 
-    function onKeyPress(event) {
+    function handleKeyPress(event) {
         // console.log(event);
         console.log(event.key);
         // console.log(event.code);
         // console.log(event.keyCode);
-        // switch (event.key) {
-        //     case "ArrowDown":
-        //         if (snake.direction !== "UP")
-        //             setSnake({...snake, direction: "DOWN"});
-        //         break;
-        //     case "ArrowUp":
-        //         if (snake.direction !== "DOWN")
-        //             setSnake({...snake, direction: "UP"});
-        //         break;
-        //     case "ArrowLeft":
-        //         if (snake.direction !== "RIGHT")
-        //             setSnake({...snake, direction: "LFET"});
-        //         break;
-        //     case "ArrowRight":
-        //         if (snake.direction !== "LEFT")
-        //             setSnake({...snake, direction: "RIGHT"});
-        //         break;
-        // }
-
         switch (event.key) {
             case "ArrowDown":
-                if (direction.current !== "UP")
-                    direction.current = 'DOWN';
+                if (snake.direction !== "UP")
+                    setSnake({...snake, direction: "DOWN"});
                 break;
             case "ArrowUp":
-                if (direction.current !== "DOWN")
-                    direction.current = 'UP';
+                if (snake.direction !== "DOWN")
+                    setSnake({...snake, direction: "UP"});
                 break;
             case "ArrowLeft":
-                if (direction.current !== "RIGHT")
-                    direction.current = 'LEFT';
+                if (snake.direction !== "RIGHT")
+                    setSnake({...snake, direction: "LFET"});
                 break;
             case "ArrowRight":
-                if (direction.current !== "LEFT")
-                    direction.current = 'RIGHT';
+                if (snake.direction !== "LEFT")
+                    setSnake({...snake, direction: "RIGHT"});
                 break;
         }
     }
@@ -155,20 +121,12 @@ function App() {
     useEffect(() => {
 
         if (!gameover) {
-            document.addEventListener("keydown", onKeyPress, {once: true}); // prevent multiple key presses within the same interval
-            // window.onkeydown = onKeyPress;
+            document.addEventListener("keydown", handleKeyPress, {once: true}); // prevent multiple key presses within the same interval using {once:true}
         }
         return () => {
-            document.removeEventListener("keydown", onKeyPress);
+            document.removeEventListener("keydown", handleKeyPress);
         }
-    }, [snake, gameover]);
-
-    //or
-    // useEffect(() => {
-    // if (!gameover)
-    //     window.onkeydown = onKeyPress;
-    //
-    // }, [snake, gameover]);
+    }, [snake.bodyLocation, gameover]);
 
     useEffect(() => {
         if (!gameover) {
@@ -176,7 +134,9 @@ function App() {
                 move();
             }, snake.speed);
             //Clearing the interval
-            return () => clearInterval(interval);
+            return () => {
+                clearInterval(interval);
+            };
         }
     }, [snake, gameover]);
 

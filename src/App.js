@@ -28,12 +28,13 @@ function generateFood() {
     return [x, y];
 }
 
-const initFoodLocation = generateFood();
+const initFoodLocation = [3, 4];
 
 function App() {
 
     const [snake, setSnake] = useState(initSnake);
     const [gameover, setGameover] = useState(true);
+    const [gamePause, setgamePause] = useState(false);
     const [food, setFood] = useState(initFoodLocation);
     const scoreRef = useRef(0);
     const isFirstGame = useRef(true);
@@ -124,21 +125,30 @@ function App() {
         scoreRef.current = 0;
         isFirstGame.current = false;
         setGameover(false);
+        setgamePause(false);
+    }
+
+    function pauseGame() {
+        setgamePause(true);
+    }
+
+    function resumeGame() {
+        setgamePause(false);
     }
 
     useEffect(() => {
 
-        if (!gameover) {
+        if (!gameover && !gamePause) {
             document.addEventListener("keydown", handleKeyPress, {once: true}); // prevent multiple key presses within the same interval using {once:true}
         }
         return () => {
             //clearing the keypress listener; otherwise it creates multiple listeners and they are stacked infinitely.
             document.removeEventListener("keydown", handleKeyPress);
         }
-    }, [snake.bodyLocation, gameover]);
+    }, [snake.bodyLocation, gameover, gamePause]);
 
     useEffect(() => {
-        if (!gameover) {
+        if (!gameover && !gamePause) {
             const interval = setInterval(() => {
                 move();
             }, snake.speed);
@@ -147,15 +157,15 @@ function App() {
                 clearInterval(interval);
             };
         }
-    }, [snake, gameover]);
+    }, [snake, gameover, gamePause]);
 
     useEffect(() => {
-        if (!gameover) {
+        if (!gameover && !gamePause) {
             hasHitWall();
             hasEatenFood();
             checkBodyCollision();
         }
-    }, [snake, gameover]);
+    }, [snake, gameover, gamePause]);
 
     return (
         <div className="app-background">
@@ -177,6 +187,10 @@ function App() {
             <div className="game-over">
                 {(!isFirstGame.current && gameover) && <div>Game Over!</div>}
                 {gameover && <button className="start-button" onClick={startNewGame}>start new game</button>}
+            </div>
+            <div className="pause-game">
+                {!gameover && !gamePause && <button className="pause-button" onClick={pauseGame}>pause game</button>}
+                {!gameover && gamePause && <button className="pause-button" onClick={resumeGame}>resume game</button>}
             </div>
         </div>
 

@@ -100,9 +100,20 @@ function App() {
         if (head[0] === food[0] && head[1] === food[1]) {
             // console.log("ate food");
             scoreRef.current += 1;
+
+            //increase snake speed every 10 scores
+            console.log(snake.speed);
+            let newSpeed = snake.speed;
+            if (scoreRef.current > 0 && scoreRef.current % 10 === 0) {
+                console.log("update speed")
+                if (snake.speed > 50) {
+                    newSpeed = snake.speed / 2;
+                }
+            }
+
             let newBodyLocation = [...snake.bodyLocation];
             newBodyLocation.unshift([]);
-            setSnake({...snake, bodyLocation: newBodyLocation});
+            setSnake({...snake, bodyLocation: newBodyLocation, speed: newSpeed});
             setFood(generateFood());
         }
     }
@@ -134,6 +145,10 @@ function App() {
 
     function resumeGame() {
         setgamePause(false);
+    }
+
+    function levelUp() {
+
     }
 
     useEffect(() => {
